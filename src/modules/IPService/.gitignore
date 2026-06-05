@@ -1,0 +1,35 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore generated protobuf cache
+generated/__pycache__/
+server/__pycache__/
+models/__pycache__/
+clients/__pycache__/
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore Python bytecode anywhere
+**/__pycache__/
+**/*.pyc

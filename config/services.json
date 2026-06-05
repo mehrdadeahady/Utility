@@ -1,9 +1,9 @@
 {
   "services": [
     {
-      "name": "UserService",
+      "name": "IPService",
       "address": "localhost:50051",
-      "proto": "user.proto"
+      "proto": "ip.proto"
     },
     {
       "name": "OrderService",

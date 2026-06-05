@@ -1,0 +1,16 @@
+✔ Option A — One‑line command (recommended):
+python -m grpc_tools.protoc -I protos --python_out=generated --grpc_python_out=generated protos/ip_service.proto
+
+✔ Option B — Multi‑line with PowerShell backticks:
+python -m grpc_tools.protoc `
+  -I protos `
+  --python_out=generated `
+  --grpc_python_out=generated `
+  protos/ip_service.proto
+
+✔ Option C — Using Git Bash / WSL / Linux / macOS
+python -m grpc_tools.protoc \
+  -I protos \
+  --python_out=generated \
+  --grpc_python_out=generated \
+  protos/ip_service.proto

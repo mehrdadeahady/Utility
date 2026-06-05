@@ -35,8 +35,8 @@ utility/
 ├── src/
 │   ├── components/
 │   ├── modules/
-│   │   ├── serviceA/
-│   │   ├── serviceB/
+│   │   ├── IPService/
+│   │   ├── OrderService/
 │   │   └── ...
 │   ├── grpc/
 │   │   ├── clients/

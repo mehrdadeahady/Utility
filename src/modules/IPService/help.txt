@@ -1,0 +1,50 @@
+Here’s the exact sequence, step‑by‑step, so nothing is missed.
+🚀 Run the gRPC Server (Python)
+
+Below is a clear, ordered guide you can follow directly in your terminal.
+
+01
+Install dependencies
+
+Your server requires grpcio and grpcio-tools to run.
+
+pip install grpcio grpcio-tools
+
+    Make sure you're inside your project folder
+
+    Use a virtual environment if you prefer
+
+02
+Generate the gRPC Python files
+
+This compiles your .proto file into Python modules.
+
+python -m grpc_tools.protoc -I protos --python_out=generated --grpc_python_out=generated protos/ip_service.proto
+
+    Ensure the protos folder exists
+
+    Ensure the generated folder exists
+
+    Run this in PowerShell or CMD as a single line
+
+03
+Start the gRPC server
+
+This launches your Python server and begins listening for requests.
+
+python server.py
+
+    You should see: gRPC IP server running on port 50051
+
+    The server is now waiting for client calls
+
+04
+Test the server with a Python client
+
+Verify that the server returns your IP correctly.
+
+python test_client.py
+
+    The response should print your client IP, Geo, BGP and available NET Info
+
+    If running locally, it will show 127.0.0.1 and rest of info

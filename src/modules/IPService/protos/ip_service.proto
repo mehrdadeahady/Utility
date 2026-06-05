@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ipservice;
+
+service IpService {
+  rpc GetClientIp (IpRequest) returns (IpResponse);
+}
+
+message IpRequest {}
+
+message Geo {
+  string country = 1;
+  string city = 2;
+  double latitude = 3;
+  double longitude = 4;
+  string asn = 5;
+  string org = 6;
+  string countryCode = 7;
+  string isp = 8;
+  string as_field = 9; // because "as" is reserved
+}
+
+message Bgp {
+  int32 asn = 1;
+  string holder = 2;
+  string prefix = 3;
+  string rir = 4;
+  string country = 5;
+  string allocated = 6;
+  string name = 7;
+  string description = 8;
+}
+
+message IpResponse {
+  string ip = 1;
+  Geo geo = 2;
+  Bgp bgp = 3;
+}
