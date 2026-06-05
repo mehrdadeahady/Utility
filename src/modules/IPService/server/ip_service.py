@@ -5,18 +5,8 @@ from generated import ip_service_pb2, ip_service_pb2_grpc
 from server.geo_service import geo_lookup
 from server.bgp_service import bgp_lookup
 from models.models import GeoModel, BgpModel, IpModel
-
-import grpc
-import urllib.parse
-import concurrent.futures
-
-from generated import ip_service_pb2, ip_service_pb2_grpc
-
-from server.geo_service import geo_lookup
-from server.bgp_service import bgp_lookup
-
-from models.models import GeoModel, BgpModel, IpModel
-
+from storage.storage import Storage
+storage = Storage()
 
 class IpService(ip_service_pb2_grpc.IpServiceServicer):
 
@@ -32,16 +22,20 @@ class IpService(ip_service_pb2_grpc.IpServiceServicer):
         else:
             ip = decoded
 
+        print(f"[REQUEST] Client IP: {ip}")
         # ------------------------------------
         # 1) CHECK IF IP EXISTS
         # ------------------------------------
         if not ip or ip.strip() == "":
+            storage.save_result(request_id, geo_data, bgp_data)
             # Return empty response immediately
             return ip_service_pb2.IpResponse(
                 ip="",
                 geo="{}",
                 bgp="{}"
             )
+        # Save the request and get its ID
+        request_id = storage.save_request(ip)
 
         # ------------------------------------
         # 2) RUN BOTH SERVICES IN PARALLEL
@@ -84,6 +78,9 @@ class IpService(ip_service_pb2_grpc.IpServiceServicer):
             geo=geo_model,
             bgp=bgp_model
         )
+        print(f"[RESULT] GEO: {geo_data}")
+        print(f"[RESULT] BGP: {bgp_data}")
+        storage.save_result(request_id, geo_data, bgp_data)
 
         # ------------------------------------
         # 4) RETURN COMBINED RESULT
