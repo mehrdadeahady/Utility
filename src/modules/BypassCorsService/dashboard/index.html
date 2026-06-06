@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CORS Proxy Reports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>CORS Proxy Reports</h1>
+
+    <div class="controls">
+      <input id="search" type="text" placeholder="Search URL, method, status…">
+      
+      <select id="filter-method">
+        <option value="">All Methods</option>
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+      </select>
+
+      <button id="dark-toggle">🌙 Dark Mode</button>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="table-wrapper">
+      <table id="reports-table">
+        <thead>
+          <tr>
+            <th data-sort="created_at">Time</th>
+            <th data-sort="method">Method</th>
+            <th data-sort="url">URL</th>
+            <th data-sort="status">Status</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="reports-body">
+          <tr>
+            <td colspan="5" class="muted">Loading reports…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button id="prev-page">Previous</button>
+      <span id="page-info"></span>
+      <button id="next-page">Next</button>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

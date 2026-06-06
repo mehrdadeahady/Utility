@@ -6,9 +6,9 @@
       "proto": "ip.proto"
     },
     {
-      "name": "OrderService",
-      "address": "localhost:50052",
-      "proto": "order.proto"
+      "name": "BypassCorsService",
+      "address": "localhost:8080",
+      "proto": ""
     }
   ]
 }

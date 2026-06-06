@@ -2,8 +2,8 @@ import grpc
 import urllib.parse
 import concurrent.futures
 from generated import ip_service_pb2, ip_service_pb2_grpc
-from server.geo_service import geo_lookup
-from server.bgp_service import bgp_lookup
+from services.geo_service import geo_lookup
+from services.bgp_service import bgp_lookup
 from models.models import GeoModel, BgpModel, IpModel
 from storage.storage import Storage
 storage = Storage()

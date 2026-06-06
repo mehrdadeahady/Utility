@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: Bypass CORS Proxy Service
+  version: 1.0.0
+  description: |
+    A lightweight CORS bypass proxy with logging, analytics, and dashboard.
+    Prefix any URL with the proxy base URL to bypass CORS restrictions.
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+
+  /{targetUrl}:
+    get:
+      summary: Proxy a GET request to any external URL
+      description: |
+        Prefix the target URL with the proxy base URL to bypass CORS.
+        Example: `/https://example.com/api`
+      parameters:
+        - name: targetUrl
+          in: path
+          required: true
+          description: The full URL to proxy (URL-encoded)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful proxied response
+        '400':
+          description: Invalid target URL
+        '500':
+          description: Proxy error
+
+    post:
+      summary: Proxy a POST request to any external URL
+      description: Same behavior as GET, but forwards POST body.
+      parameters:
+        - name: targetUrl
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successful proxied response
+        '400':
+          description: Invalid target URL
+        '500':
+          description: Proxy error
+
+  /dashboard/stats:
+    get:
+      summary: Get aggregated request statistics
+      description: Returns total requests, error count, and last request timestamp.
+      responses:
+        '200':
+          description: Stats object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_requests:
+                    type: integer
+                  errors:
+                    type: integer
+                  last_request:
+                    type: string
+                    format: date-time
+
+  /dashboard/recent:
+    get:
+      summary: Get the 50 most recent logged requests
+      responses:
+        '200':
+          description: List of recent logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    method:
+                      type: string
+                    url:
+                      type: string
+                    status:
+                      type: integer
+                    request_headers:
+                      type: object
+                    response_headers:
+                      type: object
+                    created_at:
+                      type: string
+                      format: date-time

@@ -1,0 +1,17 @@
+{
+  "name": "bypass-cors-service",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.0",
+    "http-proxy": "^1.18.1",
+    "pg": "^8.11.0",
+    "proxy-from-env": "^1.1.0",
+    "swagger-ui-express": "^4.1.6",
+    "yamljs": "^0.3.0",
+    "dotenv": "^16.0.3"
+  }
+}

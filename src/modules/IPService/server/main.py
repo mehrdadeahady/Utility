@@ -2,7 +2,7 @@ import grpc
 from concurrent import futures
 
 from generated import ip_service_pb2_grpc
-from server.ip_service import IpService
+from services.ip_service import IpService
 
 
 def serve():

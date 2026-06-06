@@ -36,7 +36,7 @@ utility/
 │   ├── components/
 │   ├── modules/
 │   │   ├── IPService/
-│   │   ├── OrderService/
+│   │   ├── BypassCorsService/
 │   │   └── ...
 │   ├── grpc/
 │   │   ├── clients/
