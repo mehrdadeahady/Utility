@@ -1,7 +1,7 @@
 # **Utility — Unified Dashboard for Multi‑Protocol Microservices**
 
 *Utility* is a unified, extensible dashboard built with *Next.js* and *React*.  
-It provides a single interface for interacting with multiple standalone microservices located inside the `/modules` directory.  
+It provides a single interface for interacting with multiple standalone microservices located inside the `/MicroserviceModules` directory.  
 Each microservice is a complete project (Node.js, Python, REST, gRPC, WebSocket, etc.), and the dashboard orchestrates them through a modern, responsive UI.
 
 ---
@@ -9,7 +9,7 @@ Each microservice is a complete project (Node.js, Python, REST, gRPC, WebSocket,
 ## **✨ Features**
 
 - **Unified Dashboard** — One UI for all microservices  
-- **Modular Architecture** — Each microservice lives in `/modules/<ServiceName>`  
+- **Modular Architecture** — Each microservice lives in `/MicroserviceModules/<ServiceName>`  
 - **Protocol‑Agnostic** — Supports REST, gRPC, WebSocket, SignalR, Python, Node.js  
 - **Service Discovery** — Driven by `config/services.json`  
 - **Real‑Time Streaming** — WebSocket & SignalR support  
@@ -37,7 +37,7 @@ Utility/
 ├── lib/
 │   └── loadServices.ts      # Service loader + route mapping
 │
-├── modules/                 # Each microservice is a full standalone project
+├── MicroserviceModules/     # Each microservice is a full standalone project
 │   ├── BypassCorsService/   # Node.js REST microservice
 │   └── IPService/           # Python gRPC microservice
 │
@@ -75,13 +75,13 @@ Each one is a complete, independent project with its own:
 ### **Included Services**
 
 #### **1. IPService (Python, gRPC)**  
-Located at: `modules/IPService/`  
+Located at: `MicroserviceModules/IPService/`  
 Implements IP lookup, BGP data, geo‑location, and more.
 Generation code from root:
 npx grpc_tools_node_protoc --js_out=import_style=commonjs,binary:lib/grpc/generated --grpc_out=grpc_js:lib/grpc/generated -I lib/grpc/protos lib/grpc/protos/ip_service.proto
 
 #### **2. BypassCorsService (Node.js, REST)**  
-Located at: `modules/BypassCorsService/`  
+Located at: `MicroserviceModules/BypassCorsService/`  
 Implements a CORS‑bypass proxy with logging and reporting.
 
 
