@@ -136,7 +136,7 @@ npm run dev
 
 Start microservices
 
-Each service inside /modules/<ServiceName> has its own README and startup instructions.
+Each service inside /MicroserviceModules/<ServiceName> has its own README and startup instructions.
 
 📜 License
 
