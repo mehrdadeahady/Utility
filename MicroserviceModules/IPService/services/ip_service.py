@@ -11,16 +11,25 @@ storage = Storage()
 class IpService(ip_service_pb2_grpc.IpServiceServicer):
 
     def GetClientIp(self, request, context):
-        peer = context.peer()
-        decoded = urllib.parse.unquote(peer)
-
-        # Extract IP
-        if decoded.startswith("ipv6:["):
-            ip = decoded.split("]")[0].replace("ipv6:[", "")
-        elif decoded.startswith("ipv4:"):
-            ip = decoded.split(":")[1]
+        # ------------------------------------
+        # 0) PRIORITY: Use IP from request if provided
+        # ------------------------------------
+        if request.ip and request.ip.strip():
+            ip = request.ip.strip()
         else:
-            ip = decoded
+            # ------------------------------------
+            # FALLBACK: Extract peer IP from gRPC context
+            # ------------------------------------
+            peer = context.peer()
+            decoded = urllib.parse.unquote(peer)
+
+            # Extract IP
+            if decoded.startswith("ipv6:["):
+                ip = decoded.split("]")[0].replace("ipv6:[", "")
+            elif decoded.startswith("ipv4:"):
+                ip = decoded.split(":")[1]
+            else:
+                ip = decoded
 
         print(f"[REQUEST] Client IP: {ip}")
         # ------------------------------------

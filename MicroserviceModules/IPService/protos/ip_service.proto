@@ -6,7 +6,9 @@ service IpService {
   rpc GetClientIp (IpRequest) returns (IpResponse);
 }
 
-message IpRequest {}
+message IpRequest {
+  string ip = 1; // Add this field to allow the client to specify the IP address
+}
 
 message Geo {
   string country = 1;

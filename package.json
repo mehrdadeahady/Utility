@@ -1,0 +1,33 @@
+{
+  "name": "utility",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "latest",
+    "@microsoft/signalr": "latest",
+    "axios": "latest",
+    "google-protobuf": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@grpc/grpc-js": "^1.14.4",
+    "@types/google-protobuf": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "grpc_tools_node_protoc_ts": "latest",
+    "grpc-tools": "latest",
+    "protoc-gen-grpc-js": "latest",
+    "typescript": "latest"
+  }
+}
