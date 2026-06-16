@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  signalservice:
+    build: .
+    container_name: signalservice
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+      FunctionalTests__WebApi__BaseUrl: "http://signalservice:8080"
+      FunctionalTests__WebApi__ApiKey: "dev-api-key"
+
+      FunctionalTests__Grpc__BaseUrl: "http://signalservice:8080"
+      FunctionalTests__Grpc__ApiKey: "dev-api-key"
+
+      FunctionalTests__SignalR__HubUrl: "http://signalservice:8080/functionalTestHub"
+      FunctionalTests__SignalR__ApiKey: "dev-api-key"
+
+      FunctionalTests__ServiceBus__ConnectionString: "Endpoint=sb://local/;SharedAccessKeyName=Root;SharedAccessKey=local"
+      FunctionalTests__ServiceBus__QueueName: "jobs"
+
+    depends_on:
+      - servicebus
+
+  servicebus:
+    image: mcr.microsoft.com/azure-messaging/servicebus-emulator:latest
+    container_name: servicebus
+    ports:
+      - "5672:5672"
+      - "5671:5671"

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: signalservice-config
+  namespace: signalservice
+data:
+  FunctionalTests__WebApi__BaseUrl: "http://signalservice:8080"
+  FunctionalTests__Grpc__BaseUrl: "http://signalservice:8080"
+  FunctionalTests__SignalR__HubUrl: "http://signalservice:8080/functionalTestHub"
+  FunctionalTests__ServiceBus__QueueName: "jobs"

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>2e73ada2-eced-4c5e-9f66-5e31579ba811</UserSecretsId>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    </PropertyGroup>
+	
+    <ItemGroup>
+		<PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
+		<PackageReference Include="Grpc.AspNetCore.HealthChecks" Version="2.80.0" />
+		<PackageReference Include="Grpc.HealthCheck" Version="2.80.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.9" />
+                <PackageReference Include="Grpc.AspNetCore" Version="2.80.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.35.1" />
+		<PackageReference Include="Grpc.Tools" Version="2.81.1" PrivateAssets="All" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.80.0" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.9" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    </ItemGroup>
+</Project>

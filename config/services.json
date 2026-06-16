@@ -9,6 +9,11 @@
       "name": "BypassCorsService",
       "address": "localhost:8080",
       "proto": ""
+    },
+    {
+      "name": "SignalService",
+      "address": "localhost:8085",
+      "proto": ""
     }
   ]
 }

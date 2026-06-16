@@ -1,0 +1,29 @@
+# -----------------------------
+# 1. Build stage
+# -----------------------------
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY *.sln ./
+COPY SignalService/*.csproj SignalService/
+COPY SignalService.Application/*.csproj SignalService.Application/
+COPY SignalService.Tests.Functional/*.csproj SignalService.Tests.Functional/
+COPY SignalService.Grpc/*.csproj SignalService.Grpc/
+
+RUN dotnet restore
+
+COPY . .
+RUN dotnet publish -c Release -o /app/publish
+
+# -----------------------------
+# 2. Runtime stage
+# -----------------------------
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "SignalService.dll"]

@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Functional Test Dashboard";
+}
+
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+<div class="container py-4">
+    <h1 class="mb-4">Functional Test Dashboard</h1>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Web API</div>
+                <div class="card-body">
+                    <p class="card-text">Submit a test job via REST Web API.</p>
+                    <button class="btn btn-primary"
+                            onclick="runTest('/FunctionalTests/RunWebApiTest', 'webapi')">
+                        Run Web API Test
+                    </button>
+                    <pre id="webapi-output" class="mt-3 bg-light p-2 small"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">gRPC</div>
+                <div class="card-body">
+                    <p class="card-text">Submit a test job via gRPC.</p>
+                    <button class="btn btn-success"
+                            onclick="runTest('/FunctionalTests/RunGrpcTest', 'grpc')">
+                        Run gRPC Test
+                    </button>
+                    <pre id="grpc-output" class="mt-3 bg-light p-2 small"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">SignalR</div>
+                <div class="card-body">
+                    <p class="card-text">Send a job and observe SignalR behavior.</p>
+                    <button class="btn btn-warning"
+                            onclick="runTest('/FunctionalTests/RunSignalRTest', 'signalr')">
+                        Run SignalR Test
+                    </button>
+                    <pre id="signalr-output" class="mt-3 bg-light p-2 small"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Service Bus</div>
+                <div class="card-body">
+                    <p class="card-text">Publish a test message to Service Bus.</p>
+                    <button class="btn btn-danger"
+                            onclick="runTest('/FunctionalTests/RunServiceBusTest', 'servicebus')">
+                        Run Service Bus Test
+                    </button>
+                    <pre id="servicebus-output" class="mt-3 bg-light p-2 small"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button class="btn btn-dark" onclick="runAllTests()">Run All Tests</button>
+        <pre id="all-output" class="mt-3 bg-light p-2 small"></pre>
+    </div>
+
+    <!-- ⭐ INSERTED: SignalR Live Log Panel -->
+    <div class="mt-5">
+        <h3>Live SignalR Log</h3>
+        <div class="card">
+            <div class="card-body" style="height: 250px; overflow-y: auto;" id="live-log"></div>
+        </div>
+    </div>
+    <!-- END INSERT -->
+</div>
+
+<script>
+    async function runTest(url, key) {
+        const outputId = key + '-output';
+        const el = document.getElementById(outputId);
+
+        el.textContent = 'Running...';
+
+        try {
+            const response = await fetch(url, { method: 'POST' });
+            const json = await response.json();
+            el.textContent = JSON.stringify(json, null, 2);
+        } catch (err) {
+            el.textContent = 'Error: ' + err;
+        }
+    }
+
+    async function runAllTests() {
+        const el = document.getElementById('all-output');
+        el.textContent = 'Running all tests...';
+
+        const endpoints = [
+            { url: '/FunctionalTests/RunWebApiTest', key: 'WebApi' },
+            { url: '/FunctionalTests/RunGrpcTest', key: 'gRPC' },
+            { url: '/FunctionalTests/RunSignalRTest', key: 'SignalR' },
+            { url: '/FunctionalTests/RunServiceBusTest', key: 'ServiceBus' }
+        ];
+
+        const results = {};
+
+        for (const e of endpoints) {
+            try {
+                const response = await fetch(e.url, { method: 'POST' });
+                const json = await response.json();
+                results[e.key] = json;
+            } catch (err) {
+                results[e.key] = { error: err.toString() };
+            }
+        }
+
+        el.textContent = JSON.stringify(results, null, 2);
+    }
+</script>
+
+<!-- ⭐ INSERTED: SignalR client script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
+<script>
+    const logEl = document.getElementById('live-log');
+
+    function appendLog(message) {
+    const line = document.createElement('div');
+    line.textContent = message;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/functionalTestHub")
+    .withAutomaticReconnect()
+    .build();
+
+    connection.on("LogMessage", msg => appendLog(msg));
+
+    connection.start()
+    .then(() => appendLog("SignalR log viewer connected"))
+    .catch(err => appendLog("Connection error: " + err));
+</script>

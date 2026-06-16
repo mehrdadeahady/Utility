@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/docker-compose/">
+    <File Path="docker-compose/docker-compose.dcproj" />
+    <File Path="docker-compose/docker-compose.yml" />
+    <File Path="docker-compose/launchSettings.json" />
+  </Folder>
+  <Folder Name="/k8s/">
+    <File Path="help.txt" />
+    <File Path="k8s/configmap.yaml" />
+    <File Path="k8s/deployment.yaml" />
+    <File Path="k8s/ingress.yaml" />
+    <File Path="k8s/namespace.yaml" />
+    <File Path="k8s/secret.yaml" />
+    <File Path="k8s/service.yaml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="SignalService/SignalService.csproj" />
+</Solution>

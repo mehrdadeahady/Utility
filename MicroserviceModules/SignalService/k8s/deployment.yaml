@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signalservice
+  namespace: signalservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: signalservice
+  template:
+    metadata:
+      labels:
+        app: signalservice
+    spec:
+      containers:
+      - name: signalservice
+        image: signalservice:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: signalservice-config
+        - secretRef:
+            name: signalservice-secrets
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10

@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "Documentation";
+}
+
+<style>
+    /* GitHub-style markdown formatting */
+    .markdown-body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: #24292e;
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .markdown-body pre {
+        background: #f6f8fa;
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+    }
+
+    .markdown-body code {
+        background: #f6f8fa;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 90%;
+    }
+
+    .markdown-body ul {
+        margin-left: 1.2rem;
+    }
+
+    .markdown-body hr {
+        margin: 2rem 0;
+        border-top: 1px solid #e1e4e8;
+    }
+</style>
+
+<div class="markdown-body">
+
+    <h1>SignalService</h1>
+
+    <p>SignalService is a modular .NET 10 microservice that provides:</p>
+    <ul>
+        <li>Web API endpoints</li>
+        <li>gRPC service</li>
+        <li>SignalR hubs</li>
+        <li>Background job processing</li>
+        <li>Azure Service Bus integration</li>
+        <li>Functional test clients (Web API, gRPC, SignalR, Service Bus)</li>
+    </ul>
+
+    <p>The project is fully containerized and includes Kubernetes deployment manifests.</p>
+
+    <hr />
+
+    <h2>📁 Project Structure</h2>
+
+    <pre><code>SignalService/
+│
+│   SignalService.slnx                     # Solution file
+│
+├── docker-compose/                        # Local container orchestration
+│   │   docker-compose.dcproj
+│   │   docker-compose.yml
+│   │   launchSettings.json
+│
+├── k8s/                                   # Kubernetes deployment manifests
+│   │   configmap.yaml
+│   │   deployment.yaml
+│   │   help.txt
+│   │   ingress.yaml
+│   │   namespace.yaml
+│   │   secret.yaml
+│   │   service.yaml
+│
+└── SignalService/                         # Main application source code
+    │   .dockerignore
+    │   appsettings.Development.json
+    │   appsettings.json
+    │   Dockerfile
+    │   Program.cs
+    │   SignalService.csproj
+    │   SignalService.csproj.user
+    │   _Dockerfile_
+    │
+    ├── Application/                       # Application layer (business logic)
+    │   ├── Contracts/
+    │   ├── Jobs/
+    │   │   └── Middleware/
+    │   ├── Queues/
+    │   └── Services/
+    │
+    ├── bin/                               # Build output
+    │
+    ├── Controllers/                       # MVC & API controllers
+    │
+    ├── Domain/                            # Domain entities
+    │
+    ├── Hubs/                              # SignalR hubs
+    │
+    ├── Infrastructure/                    # EF Core, Auth, Health Checks
+    │   ├── Auth/
+    │   └── Health/
+    │
+    ├── Models/                            # View models
+    │
+    ├── obj/                               # Build artifacts
+    │
+    ├── Properties/                        # Launch settings
+    │
+    ├── Protos/                            # gRPC proto definitions
+    │
+    ├── Services/                          # gRPC service implementations
+    │   └── Generated/
+    │       └── Protos/                    # Auto-generated gRPC C# files
+    │
+    ├── Tests/                             # Functional test clients
+    │   └── Functional/
+    │
+    ├── Views/                             # Razor views
+    │   ├── FunctionalTests/
+    │   ├── Home/
+    │   └── Shared/
+    │
+    └── wwwroot/                           # Static web assets
+        ├── css/
+        ├── js/
+        └── lib/                           # Bootstrap, jQuery, validation libs
+</code></pre>
+
+    <hr />
+
+    <h2>🐳 Running with Docker</h2>
+
+    <p><strong>Build the image:</strong></p>
+    <pre><code>docker build -t signalservice:latest ./SignalService
+</code></pre>
+
+    <p><strong>Run with Docker Compose:</strong></p>
+    <pre><code>docker compose up --build
+</code></pre>
+
+    <p>The service will be available at:</p>
+    <pre><code>http://localhost:8080
+</code></pre>
+
+    <hr />
+
+    <h2>☸️ Deploying to Kubernetes</h2>
+
+    <p>All Kubernetes manifests are located in the <code>k8s/</code> folder.</p>
+
+    <p><strong>Apply them in order:</strong></p>
+    <pre><code>kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/secret.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/ingress.yaml
+</code></pre>
+
+    <p><strong>Check deployment status:</strong></p>
+    <pre><code>kubectl get pods -n signalservice
+kubectl get svc -n signalservice
+kubectl get ingress -n signalservice
+</code></pre>
+
+    <p>If using Docker Desktop or Minikube, add to your hosts file:</p>
+    <pre><code>127.0.0.1   signalservice.local
+</code></pre>
+
+    <p>Then open:</p>
+    <pre><code>http://signalservice.local
+</code></pre>
+
+    <hr />
+
+    <h2>🧪 Functional Tests</h2>
+
+    <p>Functional test clients are located in:</p>
+    <pre><code>SignalService/Tests/Functional/
+</code></pre>
+
+    <p>They use environment variables provided by:</p>
+    <ul>
+        <li><code>configmap.yaml</code></li>
+        <li><code>secret.yaml</code></li>
+    </ul>
+
+    <p>These clients test:</p>
+    <ul>
+        <li>Web API</li>
+        <li>gRPC</li>
+        <li>SignalR</li>
+        <li>Azure Service Bus</li>
+    </ul>
+
+    <hr />
+
+    <h2>📦 Technologies Used</h2>
+
+    <p><strong>Backend / Runtime</strong></p>
+    <ul>
+        <li>.NET 10</li>
+        <li>ASP.NET Core MVC</li>
+        <li>C# 13</li>
+    </ul>
+
+    <p><strong>Communication Protocols</strong></p>
+    <ul>
+        <li>gRPC</li>
+        <li>gRPC-Web</li>
+        <li>Protocol Buffers</li>
+        <li>SignalR</li>
+        <li>REST Web API</li>
+    </ul>
+
+    <p><strong>Cloud Messaging / Queueing</strong></p>
+    <ul>
+        <li>Azure Service Bus</li>
+        <li>Azure.Messaging.ServiceBus SDK</li>
+    </ul>
+
+    <p><strong>Data & Persistence</strong></p>
+    <ul>
+        <li>Entity Framework Core</li>
+        <li>EF Core SQL Server Provider</li>
+        <li>EF Core Design Tools</li>
+    </ul>
+
+    <p><strong>Frontend / UI</strong></p>
+    <ul>
+        <li>Razor Views</li>
+        <li>Bootstrap</li>
+        <li>jQuery</li>
+        <li>jQuery Validation</li>
+    </ul>
+
+    <p><strong>Infrastructure & Deployment</strong></p>
+    <ul>
+        <li>Docker</li>
+        <li>Docker Compose</li>
+        <li>Dockerfile</li>
+    </ul>
+
+    <p><strong>Kubernetes</strong></p>
+    <ul>
+        <li>ConfigMap</li>
+        <li>Secret</li>
+        <li>Deployment</li>
+        <li>Service</li>
+        <li>Ingress</li>
+        <li>Namespace</li>
+    </ul>
+
+    <p><strong>Health & Diagnostics</strong></p>
+    <ul>
+        <li>ASP.NET Core Health Checks</li>
+        <li>Custom Health Checks</li>
+        <li>Logging Middleware</li>
+    </ul>
+
+    <p><strong>Testing</strong></p>
+    <ul>
+        <li>Web API Test Client</li>
+        <li>gRPC Test Client</li>
+        <li>SignalR Test Client</li>
+        <li>Service Bus Test Client</li>
+    </ul>
+
+    <p><strong>Security</strong></p>
+    <ul>
+        <li>API Key Authentication Handler</li>
+        <li>User Secrets</li>
+    </ul>
+
+    <p><strong>Static Assets</strong></p>
+    <ul>
+        <li>Bootstrap</li>
+        <li>jQuery</li>
+        <li>Static Web Assets</li>
+    </ul>
+
+    <hr />
+
+    <h2>📜 License</h2>
+    <p>This project is licensed for internal development use.</p>
+
+</div>

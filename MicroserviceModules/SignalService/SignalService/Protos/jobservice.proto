@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option csharp_namespace = "SignalService.Grpc";
+
+package jobservice;
+
+service JobService {
+  rpc SubmitJob (JobCreateRequest) returns (JobCreateResponse);
+  rpc GetJobStatus (JobStatusRequest) returns (JobStatusResponse);
+}
+
+message JobCreateRequest {
+  string jobType = 1;
+  string payloadJson = 2;
+}
+
+message JobCreateResponse {
+  string id = 1;
+  string senderIp = 2;
+  string jobType = 3;
+  string payloadJson = 4;
+  string createdAtUtc = 5;
+  string status = 6;
+}
+
+message JobStatusRequest {
+  string id = 1;
+}
+
+message JobStatusResponse {
+  string id = 1;
+  string status = 2;
+  string createdAtUtc = 3;
+}

@@ -1,0 +1,149 @@
+===========================================
+SignalService – Kubernetes Deployment Guide
+===========================================
+
+This document explains how to deploy the SignalService application into a
+Kubernetes cluster using the YAML files located in the solution root.
+
+Files included:
+- namespace.yaml
+- configmap.yaml
+- secret.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+
+-------------------------------------------
+1. Apply the Namespace
+-------------------------------------------
+File: namespace.yaml
+
+Purpose:
+Creates an isolated Kubernetes namespace called "signalservice".
+All other resources are deployed inside this namespace.
+
+Command:
+kubectl apply -f namespace.yaml
+
+
+-------------------------------------------
+2. Apply the ConfigMap
+-------------------------------------------
+File: configmap.yaml
+
+Purpose:
+Provides non‑secret configuration values for the application and the
+functional test clients (Web API, gRPC, SignalR, Service Bus queue name).
+
+These values become environment variables inside the container.
+
+Command:
+kubectl apply -f configmap.yaml
+
+
+-------------------------------------------
+3. Apply the Secret
+-------------------------------------------
+File: secret.yaml
+
+Purpose:
+Stores sensitive values such as the Service Bus connection string.
+Kubernetes stores these securely and injects them as environment variables.
+
+Command:
+kubectl apply -f secret.yaml
+
+
+-------------------------------------------
+4. Apply the Deployment
+-------------------------------------------
+File: deployment.yaml
+
+Purpose:
+Defines how the SignalService container runs inside Kubernetes.
+Includes:
+- container image
+- port 8080
+- environment variables from ConfigMap + Secret
+- readiness and liveness health checks
+
+Command:
+kubectl apply -f deployment.yaml
+
+
+-------------------------------------------
+5. Apply the Service
+-------------------------------------------
+File: service.yaml
+
+Purpose:
+Creates an internal cluster IP address for the application.
+Other pods inside the cluster can reach the app at:
+
+http://signalservice:8080
+
+Command:
+kubectl apply -f service.yaml
+
+
+-------------------------------------------
+6. Apply the Ingress (optional)
+-------------------------------------------
+File: ingress.yaml
+
+Purpose:
+Exposes the application externally through an Ingress controller
+(e.g., NGINX). Allows access via:
+
+http://signalservice.local
+
+If using Docker Desktop or Minikube, add this to your hosts file:
+127.0.0.1   signalservice.local
+
+Command:
+kubectl apply -f ingress.yaml
+
+
+-------------------------------------------
+7. Verify Deployment
+-------------------------------------------
+
+Check pods:
+kubectl get pods -n signalservice
+
+Check service:
+kubectl get svc -n signalservice
+
+Check ingress:
+kubectl get ingress -n signalservice
+
+View logs:
+kubectl logs -n signalservice <pod-name>
+
+
+-------------------------------------------
+8. Delete All Resources (cleanup)
+-------------------------------------------
+
+kubectl delete -f ingress.yaml
+kubectl delete -f service.yaml
+kubectl delete -f deployment.yaml
+kubectl delete -f secret.yaml
+kubectl delete -f configmap.yaml
+kubectl delete -f namespace.yaml
+
+
+-------------------------------------------
+Notes
+-------------------------------------------
+
+- All YAML files must remain next to the .slnx file.
+- The container image "signalservice:latest" must exist locally
+  (use: docker build -t signalservice:latest . inside the SignalService folder).
+- The internal DNS name "signalservice" comes from the Service name.
+- Functional test clients inside the application use the environment
+  variables provided by ConfigMap and Secret.
+
+===========================================
+End of help.txt
+===========================================
