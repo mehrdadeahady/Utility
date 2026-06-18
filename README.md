@@ -2,7 +2,7 @@
 
 *Utility* is a unified, extensible dashboard built with *Next.js* and *React*.  
 It provides a single interface for interacting with multiple standalone microservices located inside the `/MicroserviceModules` directory.  
-Each microservice is a complete project (Node.js, Python, REST, gRPC, WebSocket, etc.), and the dashboard orchestrates them through a modern, responsive UI.
+Each microservice is a complete project (Node.js, Python, REST, gRPC, WebSocket, Service Bus, etc.), and the dashboard orchestrates them through a modern, responsive UI.
 
 ---
 
@@ -40,6 +40,7 @@ Utility/
 ├── MicroserviceModules/     # Each microservice is a full standalone project
 │   ├── BypassCorsService/   # Node.js REST microservice
 │   └── IPService/           # Python gRPC microservice
+│   └── SignalService/       # .NET 10 multi-protocol microservice
 │
 └── styles/                  # Global styles
 
@@ -83,6 +84,10 @@ npx grpc_tools_node_protoc --js_out=import_style=commonjs,binary:lib/grpc/genera
 #### **2. BypassCorsService (Node.js, REST)**  
 Located at: `MicroserviceModules/BypassCorsService/`  
 Implements a CORS‑bypass proxy with logging and reporting.
+
+#### **3. SignalService (.NET 10 multi-protocol)**  
+Located at: `MicroserviceModules/SignalService/`  
+It implements the Job Queue Service and can communicate via Web API, gRPC, SignalR, and Service Bus.
 
 
 🧩 Adding a New Microservice Module
