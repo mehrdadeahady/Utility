@@ -8,6 +8,8 @@ SignalService is a modular .NET 10 microservice that provides:
 - Azure Service Bus integration
 - Functional test clients (Web API, gRPC, SignalR, Service Bus)
 
+It implements the Job Queue Service and can communicate via Web API, gRPC, SignalR, and Service Bus.
+
 The project is fully containerized and includes Kubernetes deployment manifests.
 
 ---
